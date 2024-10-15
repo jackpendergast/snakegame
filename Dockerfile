@@ -1,20 +1,23 @@
-FROM alpine:latest
+# Use an official Python runtime based on Alpine
+FROM python:3.9-alpine
 
-# Install Nginx
-RUN apk update && apk add nginx
+# Set the working directory in the container
+WORKDIR /app
 
-# Copy the default configuration file (you can customize this later)
-COPY nginx.conf /etc/nginx/nginx.conf
+# Install dependencies for building Python packages and for your app
+RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev
 
-# Copy static web files to Nginx's default folder
-COPY ./html /usr/share/nginx/html
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-# Set correct permissions
-RUN chmod -R 755 /usr/share/nginx/html && \
-    chown -R nginx:nginx /usr/share/nginx/html
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 80
-EXPOSE 80
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
 
-# Start Nginx in the foreground (required for Docker)
-CMD ["nginx", "-g", "daemon off;"]
+# Define environment variable
+ENV NAME SnakeGameApp
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]

@@ -25,6 +25,13 @@ stage('Post Image to Dockerhub')
     }
 }
 
+stage('Run Unit Tests') {
+            steps {
+                // Run tests inside the Docker container
+                sh 'docker-compose run --rm app python -m unittest discover'
+            }
+        }
+
 stage('Deploy')
 {
     sh 'docker-compose down'
