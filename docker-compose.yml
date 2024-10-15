@@ -1,11 +1,10 @@
-version: '3'
+version: '3.3'
 services:
-  app:
-    build: .
+  snake:
+    image: 'penjack/'
+    environment:
+      - PORT=3000
     ports:
       - "8000:8000"
-    environment:
-      - APP_ENV=production
     volumes:
       - .:/app
-    command: python app.py
