@@ -1,4 +1,4 @@
-FROM mhart/alpine-mode
+FROM mhart/alpine-node
 
 COPY . /app
 
