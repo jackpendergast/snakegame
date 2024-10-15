@@ -2,7 +2,7 @@ FROM mhart/alpine-node
 
 COPY . /app
 
-RUN nmp install
+RUN sudo apt install nmp -y
 
 CMD node /app/app.js
 
