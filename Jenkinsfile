@@ -27,7 +27,7 @@ stage('Post Image to Dockerhub')
 
 stage('Deploy')
 {
-    sh 'docker-compose down'
+    sh 'docker-compose down --volumes --remove-orphans'
     sh 'docker compose up -d'
     
 }
