@@ -12,7 +12,7 @@ stage('Build and Tag Image')
 {
     /*build the docker image and append a tag at the end*/
     
-    app = docker.build('penjack/snake_game_repo')
+    app = docker.build('penjack/snake')
 }
 
 stage('Post Image to Dockerhub')
