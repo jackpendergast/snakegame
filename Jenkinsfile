@@ -1,9 +1,5 @@
-/*node('ubuntu-AppServer-3120')
-{*/
-
-    def app
-
-        agent none
+pipeline{
+            agent none
 
         stage('Cloning Github')
         {
@@ -56,4 +52,4 @@
                     sh 'docker compose up -d'
             }
         }
-/*}*/
+    }
