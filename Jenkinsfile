@@ -1,34 +1,59 @@
 node('ubuntu-AppServer-3120')
 {
 
-def app
-stage('Cloning Github')
-{
-    /*cloning the girhub repository*/
-    checkout scm
-}
+    def app
 
-stage('Build and Tag Image')
-{
-    /*build the docker image and append a tag at the end*/
-    
-    app = docker.build('penjack/snake')
-}
+        agent none
 
-stage('Post Image to Dockerhub')
-{
-    /*push Image to DockerHub Repository*/
-    
-    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_credentials')
-    {
-        app.push('latest')
-    }
-}
+        stage('Cloning Github')
+        {
+            agent{
 
-stage('Deploy')
-{
-    sh 'docker-compose down'
-    sh 'docker compose up -d'
-    
-}
+                label 'ubuntu-AppServer-3120'
+            }
+            steps{
+                    /*cloning the girhub repository*/
+                    checkout scm
+            }
+        }
+
+        stage('Build and Tag Image')
+        {
+            agent{
+
+                label 'ubuntu-AppServer-3120'
+            }
+            steps{
+                        /*build the docker image*/
+                        app = docker.build('penjack/snake')
+            }
+        }
+
+        stage('Post Image to Dockerhub')
+        {
+            agent{
+
+                label 'ubuntu-AppServer-3120'
+            }
+            steps{
+                    /*push Image to DockerHub Repository and append a tag at the end*/
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_credentials')
+                    {
+                        app.push('latest')
+                    }
+            }
+        }
+
+        stage('Deploy')
+        {
+            agent{
+
+                label 'ubuntu-AppServer-3120'
+            }
+            steps{
+                    /*Deploy the server*/
+                    sh 'docker-compose down'
+                    sh 'docker compose up -d'
+            }
+        }
 }
