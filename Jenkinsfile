@@ -1,5 +1,5 @@
-node('ubuntu-AppServer-3120')
-{
+/*node('ubuntu-AppServer-3120')
+{*/
 
     def app
 
@@ -56,4 +56,4 @@ node('ubuntu-AppServer-3120')
                     sh 'docker compose up -d'
             }
         }
-}
+/*}*/
