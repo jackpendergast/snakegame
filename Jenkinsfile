@@ -1,5 +1,7 @@
 pipeline{
 
+        agent none
+        
             stage('Cloning Github')
             {
                 agent{
