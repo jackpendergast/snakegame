@@ -1,56 +1,85 @@
-pipeline{
-
-        agent none
-        
-            stage('Cloning Github')
-            {
-                agent{
-
-                    label 'ubuntu-AppServer-3120'
-                }
-                steps{
-                        /*cloning the girhub repository*/
-                        checkout scm
-                }
-            }
-
-            stage('Build and Tag Image')
-            {
-                agent{
-
-                    label 'ubuntu-AppServer-3120'
-                }
-                steps{
-                            /*build the docker image*/
-                            app = docker.build('penjack/snake')
-                }
-            }
-
-            stage('Post Image to Dockerhub')
-            {
-                agent{
-
-                    label 'ubuntu-AppServer-3120'
-                }
-                steps{
-                        /*push Image to DockerHub Repository and append a tag at the end*/
-                        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub_credentials')
-                        {
-                            app.push('latest')
-                        }
-                }
-            }
-
-            stage('Deploy')
-            {
-                agent{
-
-                    label 'ubuntu-AppServer-3120'
-                }
-                steps{
-                        /*Deploy the server*/
-                        sh 'docker-compose down'
-                        sh 'docker compose up -d'
-                }
-            }
+pipeline
+{
+  agent none
+ 
+  stages
+  {
+    stage('CLONE GIT REPOSITORY')
+    {
+      agent
+      {
+        label 'ubuntu-Appserver-3120'
+      }
+      steps
+      {
+        checkout scm
+      }
     }
+ 
+    stage('SCA-SAST-SNYK-TEST')
+    {
+      agent
+      {
+        label 'ubuntu-Appserver-3120'
+      }
+      steps
+      {
+        echo "SNYK-TEST"
+      }
+    }
+ 
+     stage('BUILD-AND-TAG')
+    {
+      agent
+      {
+        label 'ubuntu-Appserver-3120'
+      }
+      steps
+      {
+         script
+         {
+            def app = docker.build("penjack/snake")
+            app.tag("latest")
+         }
+      }
+    }
+ 
+      stage('POST-TO-DOCKERHUB')
+    {
+      agent
+      {
+        label 'ubuntu-Appserver-3120'
+      }
+      steps
+      {
+         script
+         {
+            docker.withRegistry("https://registry.hub.docker.com", "dockerhub_credentials")
+            {
+                def app = docker.image("penjack/snake")
+                app.push("latest")
+ 
+            }
+           
+         }
+      }
+    }
+ 
+    stage('DEPLOYMENT')
+    {
+      agent
+      {
+        label 'ubuntu-Appserver-3120'
+      }
+      steps
+      {
+        sh "docker-compose down"
+        sh "docker-compose up -d"
+      }
+    }
+ 
+   
+   
+  }
+ 
+}
