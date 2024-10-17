@@ -8,7 +8,7 @@ pipeline
     {
       agent
       {
-        label 'ubuntu-Appserver-3120'
+        label 'ubuntu-AppServer-3120'
       }
       steps
       {
@@ -20,7 +20,7 @@ pipeline
     {
       agent
       {
-        label 'ubuntu-Appserver-3120'
+        label 'ubuntu-AppServer-3120'
       }
       steps
       {
@@ -32,7 +32,7 @@ pipeline
     {
       agent
       {
-        label 'ubuntu-Appserver-3120'
+        label 'ubuntu-AppServer-3120'
       }
       steps
       {
@@ -48,7 +48,7 @@ pipeline
     {
       agent
       {
-        label 'ubuntu-Appserver-3120'
+        label 'ubuntu-AppServer-3120'
       }
       steps
       {
@@ -69,7 +69,7 @@ pipeline
     {
       agent
       {
-        label 'ubuntu-Appserver-3120'
+        label 'ubuntu-AppServer-3120'
       }
       steps
       {
