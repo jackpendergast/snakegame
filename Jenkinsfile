@@ -7,7 +7,17 @@ stage('Cloning Git')
     /* Let's make sure we have the repository cloned to our workspace */
     checkout scm
 }
- 
+
+stage('SCA-SAST-SNYK-TEST'){
+
+    snykSecurity(
+        snykInstallation:'Snyk',
+        snykTokenId: 'synk_api',
+        severity: 'critical'
+    )
+
+}
+
 stage('Build-and-Tag')
 {
     /* This builds the actual image; 
