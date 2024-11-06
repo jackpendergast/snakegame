@@ -1,7 +1,6 @@
 node('ubuntu-AppServer-3120')
 {
  
-def app
 stage('Cloning Git')
 {
     /* Let's make sure we have the repository cloned to our workspace */
@@ -35,7 +34,8 @@ stage('Build-and-Tag')
 {
     /* This builds the actual image; 
          * This is synonymous to docker build on the command line */
-    app = docker.build('penjack/snake')
+    def app = docker.build('penjack/snake')
+    app.tag("latest")
 }
  
 stage('Post-to-dockerhub')
